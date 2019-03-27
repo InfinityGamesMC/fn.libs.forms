@@ -3,7 +3,6 @@
 namespace FunoNetwork\Forms\elements;
 
 abstract class Element implements \JsonSerializable {
-
     /** @var string */
     private $text;
 

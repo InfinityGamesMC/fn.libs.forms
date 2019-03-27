@@ -6,16 +6,21 @@ class Toggle extends Element {
     /** @var bool */
     private $default;
 
-    public function __construct(string $text) {
+    /** @var callable|null */
+    private $callback;
+
+    public function __construct(string $text, bool $default, ?callable $callback) {
         parent::__construct($text);
+        $this->default = $default;
+        $this->callback = $callback;
     }
 
     public function hasChanged(): bool {
         return $this->default !== $this->value;
     }
 
-    public function getDefault(): bool {
-        return $this->default;
+    public function getCallback(): ?callable {
+        return $this->callback;
     }
 
     public function getAnswer($option) {

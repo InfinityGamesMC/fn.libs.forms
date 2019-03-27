@@ -26,9 +26,8 @@ class CustomForm extends Form {
         return $dropdown;
     }
 
-    public function addToggle(string $text): Toggle {
-        $toggle = new Toggle($text);
-        //$toggle->setCallback($callable);
+    public function addToggle(string $text, bool $default, ?callable $callback): Toggle {
+        $toggle = new Toggle($text, $default, $callback);
         $this->elements[] = $toggle;
         return $toggle;
     }
@@ -58,8 +57,12 @@ class CustomForm extends Form {
                 $element = $this->elements[$index];
 
                 if($element->getCallback($value) !== null) {
-                    //$response->addAnswer($index, $element->getAnswer($data[$index]));
-                    $element->getCallback($value)();
+                    if($element instanceof Toggle) {
+                        $element->getCallback()((bool) $value);
+                    }
+                    if($element instanceof Dropdown) {
+                        $element->getCallback($value)();
+                    }
                 }
             }
         } else {
