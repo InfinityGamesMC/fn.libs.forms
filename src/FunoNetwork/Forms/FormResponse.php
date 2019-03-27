@@ -5,27 +5,27 @@ namespace FunoNetwork\Forms;
 class FormResponse {
     private $answers = [];
 
-    public function addAnswer(string $id, $data): void {
+    public function addAnswer(int $id, $data): void {
         $this->answers[$id] = $data;
     }
 
-    public function getToggle(string $id): bool {
+    public function getToggle(int $id): bool {
         return $this->answers[$id];
     }
 
-    public function getStepSlider(string $id): string {
+    public function getStepSlider(int $id): string {
         return $this->answers[$id];
     }
 
-    public function getSlider(string $id): float {
+    public function getSlider(int $id): float {
         return $this->answers[$id];
     }
 
-    public function getInput(string $id): string {
+    public function getInput(int $id): string {
         return $this->answers[$id];
     }
 
-    public function getDropdown(string $id): string {
+    public function getDropdown(int $id): string {
         return $this->answers[$id];
     }
 }

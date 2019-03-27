@@ -15,23 +15,18 @@ class SimpleForm extends Form {
     private $text = "";
 
     /** @var \Closure|null */
-    private $onSubmit;
     private $onClose;
 
     public function __construct(string $title) {
         parent::__construct($title);
     }
 
-    public function addButton(string $id, string $text): void {
-        $this->buttons[] = new Button($id, $text);
+    public function addButton(string $text, callable $callable): void {
+        $this->buttons[] = new Button($text, $callable);
     }
 
     public function setText(string $text): void {
         $this->text = $text;
-    }
-
-    public function onResponse(callable $callable): void {
-        $this->onSubmit = $callable;
     }
 
     public function onClose(callable $callable): void {
@@ -46,20 +41,20 @@ class SimpleForm extends Form {
         ];
     }
 
-    public final function handleResponse(Player $player, $data): void {
-        if($data == null) {
+    public final function handleResponse(Player $player, $data): void {var_dump("response");var_dump($data);
+        if($data === null) {
             if($this->onClose !== null) {
                 ($this->onClose)();
             }
         } else if(is_int($data)) {
             if(!isset($this->buttons[$data])) {
-                throw new FormValidationException("Button with index $data does not exist");
+                 throw new FormValidationException("Button with index $data does not exist");
             }
 
-            if($this->onSubmit !== null) {
-                $button = $this->buttons[$data];
+            $button = $this->buttons[$data];
 
-                ($this->onSubmit)($button);
+            if($button->getCallback() !== null) {
+                $button->getCallback()();
             }
         } else {
             throw new FormValidationException("Unexpected response, got: " . gettype($data));

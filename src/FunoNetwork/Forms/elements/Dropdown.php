@@ -9,15 +9,23 @@ class Dropdown extends Element {
     /** @var int */
     private $defaultOption = 0;
 
-    public function __construct(string $id, string $text) {
-        parent::__construct($id, $text);
+    /** @var callable */
+    private $callbacks = [];
+
+    public function __construct(string $text) {
+        parent::__construct($text);
     }
 
-    public function addOption(string $id, string $text, $default = false): void {
+    public function addOption(string $text, $default = false, callable $callable): void {
         if($default) {
             $this->defaultOption = count($this->options);
         }
+        $this->callbacks[] = $callable;
         $this->options[] = $text;
+    }
+
+    public function getCallback(int $index): callable {
+        return $this->callbacks[$index];
     }
 
     public function getOptions(): array {

@@ -6,8 +6,8 @@ class Toggle extends Element {
     /** @var bool */
     private $default;
 
-    public function __construct(string $id, string $text) {
-        parent::__construct($id, $text);
+    public function __construct(string $text) {
+        parent::__construct($text);
     }
 
     public function hasChanged(): bool {

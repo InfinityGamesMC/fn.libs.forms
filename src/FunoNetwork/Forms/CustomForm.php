@@ -14,27 +14,23 @@ class CustomForm extends Form {
     private $elements = [];
 
     /** @var \Closure|null */
-    private $onSubmit;
     private $onClose;
 
     public function addLabel(string $text): void {
         $this->elements[] = new Label($text);
     }
 
-    public function addDropdown(string $text, string $id): Dropdown {
-        $dropdown = new Dropdown($id, $text);
+    public function addDropdown(string $text): Dropdown {
+        $dropdown = new Dropdown($text);
         $this->elements[] = $dropdown;
         return $dropdown;
     }
 
-    public function addToggle(string $text, string $id): Toggle {
-        $toggle = new Toggle($id, $text);
+    public function addToggle(string $text): Toggle {
+        $toggle = new Toggle($text);
+        //$toggle->setCallback($callable);
         $this->elements[] = $toggle;
         return $toggle;
-    }
-
-    public function onResponse(callable $callable): void {
-        $this->onSubmit = $callable;
     }
 
     public function onClose(callable $callable): void {
@@ -53,22 +49,18 @@ class CustomForm extends Form {
             if($this->onClose !== null) {
                 ($this->onClose)();
             }
-        } else if (is_array($data)) {
+        } else if(is_array($data)) {
             $response = new FormResponse();
-
             foreach($data as $index => $value) {
                 if(!isset($this->elements[$index])) {
                     throw new FormValidationException("Element at index $index does not exist");
                 }
-                
-                if($this->onSubmit !== null) {
-                    $element = $this->elements[$index];
-                    $response->addAnswer($element->getId(), $element->getAnswer($data[$index]));
+                $element = $this->elements[$index];
 
-                    ($this->onSubmit)($response);
+                if($element->getCallback($value) !== null) {
+                    //$response->addAnswer($index, $element->getAnswer($data[$index]));
+                    $element->getCallback($value)();
                 }
-
-                var_dump($element->getAnswer($data[$index]));
             }
         } else {
             throw new FormValidationException("Unexpected response, got: " . gettype($data));
