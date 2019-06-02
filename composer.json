@@ -1,0 +1,11 @@
+{
+    "name": "funo-network/fn.libs.forms",
+    "description": "https://github.com/FunoNetwork/fn.libs.forms",
+    "type": "library",
+    "license": "GPL-3.0-only",
+    "autoload": {
+      "psr-4": {
+         "": ["src"]
+      }
+   }
+}

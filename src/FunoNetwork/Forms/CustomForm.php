@@ -49,7 +49,6 @@ class CustomForm extends Form {
                 ($this->onClose)();
             }
         } else if(is_array($data)) {
-            $response = new FormResponse();
             foreach($data as $index => $value) {
                 if(!isset($this->elements[$index])) {
                     throw new FormValidationException("Element at index $index does not exist");

@@ -1,10 +1,10 @@
 # fn.libs.forms
 A form library for PocketMine-MP, inspired by EasyForms, FormAPI and BlockSniper.
+**Better name suggestions are welcome**
   
 ### TODO
 * Add the remaining elements
-* Add server settings form
-* Allow setting a global callback for dropdowns instead of only individual options
+* Allow setting a global callback for dropdowns instead of only individual options?
 
 ------
   
@@ -26,28 +26,44 @@ $form->onClose(function() {
 $player->sendForm($form);
 ```
 
-### Custom Form Example
+------
+
+### Modal Form Example
+```php
+$form = new ModalForm("Reset Account", "Do you wish to delete your account? You will lose all your progress.");
+$form->setYesButtonText("Yes");
+$form->setNoButtonText("Cancel");
+$form->onResponse(function($data) {
+    // I cant remember what the data is but yeah
+});
+```
+
+------
+
+#### Custom Form Example
 ```php
 $form = new CustomForm("Chat Effects");
+$form->addLabel("Customize your chat!\n\n");
 
-$colour = $form->addDropdown("Chat Colour");
-$colour->addOption("Aqua", function() {
-    $this->setNameColour($player, TextFormat::AQUA);
-});
+$dropdown = $form->addDropdown("Chat Colour");
+foreach(["Default", "Aqua", "Gold"] as $colour) {
+    $dropdown->addOption($colour, (bool) ($session->getPreference("chatColour") == $colour), function() use ($session, $colour) {
+        $session->setPreference("chatColour", $colour, false);
+    }
+}
 
-$form->addToggle("Display VIP Rank", $this->shouldShowRank, function(bool $value) {
-    $this->toggleRank($player, $value);
-});
-
-$form->onClose(function() {
-    $player->sendMessage("Closed form");
+$form->addToggle("Display rank", (bool) $session->getPreference("displayRank"), function(bool $value) use ($session) {
+    $session->setPreference("displayRank", $value, false);
 });
 
 $player->sendForm($form);
 ```
-It is possible to omit the callbacks so that clicking an element wont do anything.  
+It is possible to omit the callbacks for toggles so that clicking wont do anything.  
+
+#### Note
+Basic support for server settings forms is included. You will have to handle the packets yourself, however.
   
 ## License
 Licensed under the MIT License. See the file named `LICENSE` for more information.
 
-Copyright (c) 2019 Funo Network / BradW Ltd.
+Copyright (c) 2019 Funo Network.

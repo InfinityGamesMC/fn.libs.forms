@@ -18,7 +18,6 @@ abstract class Form implements IForm {
     }
 
     public final function jsonSerialize(): array {
-        var_dump(json_encode(["title" => $this->title] + $this->serialize(), JSON_PRETTY_PRINT));
         return ["title" => $this->title] + $this->serialize();
     }
 
