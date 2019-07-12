@@ -1,6 +1,6 @@
 name: fn.libs.forms
 main: FunoNetwork\Forms\Main
 version: 1.0.0
-api: [3.6.4, 4.0.0]
+api: [4.0.0]
 author: Funo Developers <developers@funo.network>
 description: A simple form creation library.
