@@ -21,8 +21,10 @@ class SimpleForm extends Form {
         parent::__construct($title);
     }
 
-    public function addButton(string $text, ?callable $callable): void {
-        $this->buttons[] = new Button($text, $callable);
+    public function addButton(string $text, ?callable $callable): Button {
+        $button = new Button($text, $callable);
+        $this->buttons[] = $button;
+        return $button;
     }
 
     public function setText(string $text): void {
