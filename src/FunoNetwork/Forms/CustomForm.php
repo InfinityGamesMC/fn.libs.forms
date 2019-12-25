@@ -5,9 +5,7 @@ namespace FunoNetwork\Forms;
 use pocketmine\player\Player;
 use pocketmine\form\FormValidationException;
 
-use FunoNetwork\Forms\elements\{
-    Label, Dropdown, Toggle
-};
+use FunoNetwork\Forms\elements\{Label, Dropdown, Slider, Toggle};
 
 class CustomForm extends Form {
     /** @var Element[] */
@@ -30,6 +28,12 @@ class CustomForm extends Form {
         $toggle = new Toggle($text, $default, $callback);
         $this->elements[] = $toggle;
         return $toggle;
+    }
+
+    public function addSlider(string $text, float $min, float $max, float $step = 1.0, float $default = null): Slider {
+        $slider = new Slider($text, $min, $max, $step, $default);
+        $this->elements[] = $slider;
+        return $slider;
     }
 
     public function onClose(callable $callable): void {
