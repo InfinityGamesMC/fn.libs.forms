@@ -30,8 +30,8 @@ class CustomForm extends Form {
         return $toggle;
     }
 
-    public function addSlider(string $text, float $min, float $max, float $step = 1.0, float $default = null): Slider {
-        $slider = new Slider($text, $min, $max, $step, $default);
+    public function addSlider(string $text, float $min, float $max, float $step = 1.0, float $default = null, ?callable $callback = null): Slider {
+        $slider = new Slider($text, $min, $max, $step, $default, $callback);
         $this->elements[] = $slider;
         return $slider;
     }
@@ -65,6 +65,9 @@ class CustomForm extends Form {
                     }
                     if($element instanceof Dropdown) {
                         $element->getCallback($value)();
+                    }
+                    if($element instanceof Slider) {
+                        $element->getCallback()((int) $value);
                     }
                 }
             }

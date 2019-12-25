@@ -15,7 +15,10 @@ class Slider extends Element {
     /** @var float */
     private $default;
 
-    public function __construct(string $text, float $min, float $max, float $step, ?float $default){
+    /** @var callable|null */
+    private $callback;
+
+    public function __construct(string $text, float $min, float $max, float $step, ?float $default, ?callable $callback){
         parent::__construct($text);
 
         $this->min = $min;
@@ -43,6 +46,10 @@ class Slider extends Element {
 
     public function getDefault() : float{
         return $this->default;
+    }
+
+    public function getCallback(): ?callable {
+        return $this->callback;
     }
 
     protected function serialize(): array {
